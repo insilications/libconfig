@@ -4,61 +4,93 @@
 #
 Name     : libconfig
 Version  : 1.5
-Release  : 14
+Release  : 15
 URL      : http://www.hyperrealm.com/libconfig/libconfig-1.5.tar.gz
 Source0  : http://www.hyperrealm.com/libconfig/libconfig-1.5.tar.gz
-Summary  : C++ Configuration File Library
+Summary  : C Configuration File Library
 Group    : Development/Tools
 License  : LGPL-2.1
-Requires: libconfig-lib
-Requires: libconfig-doc
+Requires: libconfig-info = %{version}-%{release}
+Requires: libconfig-lib = %{version}-%{release}
+Requires: libconfig-license = %{version}-%{release}
 BuildRequires : bison
-BuildRequires : cmake
+BuildRequires : buildreq-cmake
 BuildRequires : flex
 
 %description
-
+To produce a PDF manual, issue the command "make pdf" after running
+`./configure'.
 
 %package dev
 Summary: dev components for the libconfig package.
 Group: Development
-Requires: libconfig-lib
+Requires: libconfig-lib = %{version}-%{release}
+Provides: libconfig-devel = %{version}-%{release}
+Requires: libconfig = %{version}-%{release}
 
 %description dev
 dev components for the libconfig package.
 
 
-%package doc
-Summary: doc components for the libconfig package.
-Group: Documentation
+%package info
+Summary: info components for the libconfig package.
+Group: Default
 
-%description doc
-doc components for the libconfig package.
+%description info
+info components for the libconfig package.
 
 
 %package lib
 Summary: lib components for the libconfig package.
 Group: Libraries
+Requires: libconfig-license = %{version}-%{release}
 
 %description lib
 lib components for the libconfig package.
 
 
+%package license
+Summary: license components for the libconfig package.
+Group: Default
+
+%description license
+license components for the libconfig package.
+
+
 %prep
 %setup -q -n libconfig-1.5
+cd %{_builddir}/libconfig-1.5
 
 %build
-%configure --disable-static
-make V=1  %{?_smp_mflags}
-
-%check
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1573791429
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
+%configure --disable-static
+make  %{?_smp_mflags}
+
+%check
+export LANG=C.UTF-8
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 ./tests/libconfig_tests
 
 %install
+export SOURCE_DATE_EPOCH=1573791429
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/libconfig
+cp %{_builddir}/libconfig-1.5/COPYING.LIB %{buildroot}/usr/share/package-licenses/libconfig/7898de9d8a0026da533e44a786a17e435d7697f0
+cp %{_builddir}/libconfig-1.5/debian/copyright %{buildroot}/usr/share/package-licenses/libconfig/2e20a3cdae1104ff22446cfcbb9f17d04fea5879
 %make_install
 
 %files
@@ -66,15 +98,25 @@ rm -rf %{buildroot}
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
-/usr/include/*.h\+\+
-/usr/lib64/*.so
-/usr/lib64/pkgconfig/*.pc
+/usr/include/libconfig.h
+/usr/include/libconfig.h++
+/usr/lib64/libconfig++.so
+/usr/lib64/libconfig.so
+/usr/lib64/pkgconfig/libconfig++.pc
+/usr/lib64/pkgconfig/libconfig.pc
 
-%files doc
-%defattr(-,root,root,-)
-%doc /usr/share/info/*
+%files info
+%defattr(0644,root,root,0755)
+/usr/share/info/libconfig.info
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libconfig++.so.9
+/usr/lib64/libconfig++.so.9.2.0
+/usr/lib64/libconfig.so.9
+/usr/lib64/libconfig.so.9.2.0
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libconfig/2e20a3cdae1104ff22446cfcbb9f17d04fea5879
+/usr/share/package-licenses/libconfig/7898de9d8a0026da533e44a786a17e435d7697f0

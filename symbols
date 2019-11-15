@@ -147,7 +147,7 @@ libconfig++.so.9:_ZNK9libconfig7Setting7getPathB5cxx11Ev
 libconfig++.so.9:_ZNK9libconfig7Setting8getIndexEv
 libconfig++.so.9:_ZNK9libconfig7Setting9getLengthEv
 libconfig++.so.9:_ZNK9libconfig7Setting9getParentEv
-libconfig++.so.9:_ZNK9libconfig7SettingcvNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEB5cxx11Ev
+libconfig++.so.9:_ZNK9libconfig7SettingcvNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEv
 libconfig++.so.9:_ZNK9libconfig7SettingcvPKcEv
 libconfig++.so.9:_ZNK9libconfig7SettingcvbEv
 libconfig++.so.9:_ZNK9libconfig7SettingcvdEv
