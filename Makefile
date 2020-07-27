@@ -1,5 +1,5 @@
 PKG_NAME := libconfig
-URL = https://hyperrealm.github.io/libconfig/dist/libconfig-1.7.2.tar.gz
+URL = https://github.com/hyperrealm/libconfig.git
 ARCHIVES = 
 
 include ../common/Makefile.common
